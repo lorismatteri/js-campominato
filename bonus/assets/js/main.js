@@ -129,11 +129,16 @@ if (difficolta == 0) {
 
 //Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito. */
 
-var sommaPunti = 0;
-
-for (i = 0; i < userNumbers.length; i++) {
-   sommaPunti = sommaPunti + 1;
+function calcoloPunti (array, num) {
+    var num = 0;
+    for (i = 0; i < array.length; i++){
+        num = num + 1;
+    }
+    return num;
 }
 
-console.log("Hai totalizzato " + sommaPunti + " punti");
+var somma = 0;
 
+var punteggio = calcoloPunti(userNumbers, somma);
+
+console.log("Hai totalizzato " + punteggio + " punti");
