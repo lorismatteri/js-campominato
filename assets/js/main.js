@@ -1,55 +1,67 @@
 //Il computer deve generare 16 numeri casuali tra 1 e 100.
 //I numeri non possono essere duplicati
 
-var numeri = [];
+//Funzione per generare numero random
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-for (var i = 0; i < 16; i++) {
-    var randomNumber = Math.floor((Math.random() * 101));
-    if(numeri.indexOf(randomNumber) === -1) {
-        numeri.push(randomNumber);
+//Funzione per trovare numeri duplicati nell'array
+function duplicati(array, number) {
+    var i = 0;
+    while (i < array.length) {
+        if (number === array[i]) {
+            return true;
+        }
+        i++
     }
 }
 
-console.log(numeri);
+var numeriPcRandom = [];
+
+while (numeriPcRandom.length !== 16) {
+    var number = getRandomNumber(1, 100);
+    if (! duplicati(numeriPcRandom, number)) {
+        numeriPcRandom.push(number);
+    }
+}
+
+console.log(numeriPcRandom);
 
 //In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
 //L’utente non può inserire più volte lo stesso numero.
+//Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
+//La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
 
 var userNumbers = [];
 
-var n = 0;
-while (n < 16) {
-    var numeroUt = Number(prompt("Inserisci un numero da 1 a 100, non lo stesso più volte!"));
+var giocate = 100 - 16;
+
+for (var i = 0; i <= giocate; i++) {
+    var numeroUt = Number(prompt("Inserisci un numero compreso tra 1 e 100"));
+    if (duplicati(numeriPcRandom, numeroUt)) {
+        alert("Bomba 💣 This is the end!");
+        break;
+    }
+    while (duplicati(userNumbers, numeroUt)) {
+        alert("Numero già usato")
+        numeroUt = Number(prompt("Inserisci un numero compreso tra 1 e 100"));
+    }
+    while (numeroUt == 0) {
+        alert("0 non è un numero compreso tra 1 e 100, gnurant!")
+        numeroUt = Number(prompt("Inserisci un numero compreso tra 1 e 100"));
+    }
     userNumbers.push(numeroUt);
-    n++;
 }
 
 console.log(userNumbers);
 
-//Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
-//La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
-
-var numb;
-var punti = 0;
-var penalita = 0;
-
-for (var i=0; i < userNumbers.length; i++) {
-    numb = userNumbers[i];
-    if (numeri.indexOf(numb) < 0) {
-    punti = punti + 10;
-    } else {
-    penalita = penalita + 10;
-    }
-}
-
-console.log(punti, penalita);
-
 //Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito. */
 
-if (punti > penalita) {
-    console.log("Hai vinto");
-} else if (punti < penalita) {
-    console.log("Hai perso");
-} else {
-    console.log("Pareggio");
+var sommaPunti = 0;
+
+for (i = 0; i < userNumbers.length; i++) {
+   sommaPunti = sommaPunti + 1;
 }
+
+console.log("Hai totalizzato " + sommaPunti + " punti");
